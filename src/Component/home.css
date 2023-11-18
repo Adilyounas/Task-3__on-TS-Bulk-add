@@ -1,0 +1,19 @@
+#deleteBtn{
+    cursor: pointer;
+    transition: .3s ease;
+    
+}
+
+#deleteBtn:hover{
+    color: red;
+    scale: 1.5;
+    
+}
+
+
+#theOneContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
