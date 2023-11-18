@@ -14,9 +14,12 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+// import toast from "react-hot-toast";
 
 const Home = () => {
-  const [data, setData] = useState([{ id: 7172, name: "", price: "" }]);
+  const [data, setData] = useState([
+    { id: 7172, name: "", price: "", file: "" },
+  ]);
   const [dataForTable, setDataForTable] = useState([]);
 
   const [inputFormData, setInputFormData] = useState({
@@ -27,12 +30,11 @@ const Home = () => {
 
   //this will set the values of inputFormData
 
-  const inputFormValueChangeHandler = (e,ele) => {
+  const inputFormValueChangeHandler = (e, ele) => {
     const name = e.target.id;
     let value = e.target.value;
-    
-    
-    if (name==="file") {
+
+    if (name === "file") {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
@@ -51,7 +53,7 @@ const Home = () => {
             );
           }
         };
-  
+
         reader.readAsDataURL(file);
       }
     }
@@ -94,112 +96,115 @@ const Home = () => {
   // todo<------------------------------------------------------------------------->
 
   const pushDataHandler = () => {
-    console.log("Data Is pushing");
-    console.log(data);
+    // console.log("Data Is pushing");
+
     setDataForTable(data)
   };
 
   return (
     <>
-     <Box id="theOneContainer" >
-     <Box
-        component={"div"}
-        width={"100%"}
-        minHeight={"50vh"}
-        display={"flex"}
-        justifyContent={"flex-start"}
-        alignItems={"center"}
-        flexDirection={"column"}
-        marginTop={10}
-      >
-        <Box component={"div"} width={"50vw"}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Select Image</TableCell>
-
-                <TableCell>Delete</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {data &&
-                data.map((ele, index) => (
-                  <TableRow key={ele.id}>
-                    <TableCell>
-                      <TextField
-                        onChange={(e) => inputFormValueChangeHandler(e, ele)}
-                        id="name"
-                        label={"Enter Name"}
-                        type="string"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        onChange={(e) => inputFormValueChangeHandler(e, ele)}
-                        id="price"
-                        label={"Enter Price"}
-                        type="number"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        id="file"
-                        type="file"
-                        inputProps={{
-                          accept: "image/jpeg", // Specify the accepted file types (e.g., JPEG)
-                        }}
-                       
-                        style={{ display: "none" }}
-                        onChange={(e) => inputFormValueChangeHandler(e, ele)}
-                        fullWidth
-                      />
-                      <label
-                        htmlFor="file"
-                        style={{ cursor: "pointer", padding: "20px 0" }}
-                      >
-                        Choose File
-                      </label>
-                    </TableCell>
-                    <TableCell>
-                      <Box display={"flex"}>
-                        {data.length > 1 && (
-                          <Button style={{ color: "black" }}>
-                            <DeleteIcon
-                              id="deleteBtn"
-                              onClick={() => deleteRowHandler(ele.id)}
-                            />
-                          </Button>
-                        )}
-
-                        {data.length - 1 === index && (
-                          <Button onClick={formSubmitHandler}>
-                            <AddIcon />
-                          </Button>
-                        )}
-                      </Box>
-                    </TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </Box>
-        <Button
-          onClick={pushDataHandler}
-          style={{ margin: "2vmax 0" }}
-          variant="contained"
-          disabled={data.length > 0 ? false : true}
+      <Box id="theOneContainer">
+        <Box
+          component={"div"}
+          width={"100%"}
+          minHeight={"50vh"}
+          display={"flex"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          flexDirection={"column"}
+          marginTop={10}
         >
-          Push Data
-        </Button>
+          <Box component={"div"} width={"50vw"}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Row</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Select Image</TableCell>
+                  <TableCell>Delete</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {data &&
+                  data.map((ele, index) => (
+                    <TableRow key={ele.id}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>
+                        <TextField
+                          onChange={(e) => inputFormValueChangeHandler(e, ele)}
+                          id="name"
+                          label={"Enter Name"}
+                          type="string"
+                          required
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          onChange={(e) => inputFormValueChangeHandler(e, ele)}
+                          id="price"
+                          label={"Enter Price"}
+                          type="number"
+                          required
+
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          id="file"
+                          type="file"
+                          required
+                          inputProps={{
+                            accept: "image/jpeg", // Specify the accepted file types (e.g., JPEG)
+                          }}
+                          style={{ display: "none" }}
+                          onChange={(e) => inputFormValueChangeHandler(e, ele)}
+                          fullWidth
+
+                        />
+                        <label
+                          htmlFor="file"
+                          style={{ cursor: "pointer", padding: "20px 0" }}
+                        >
+                          Choose File
+                        </label>
+                      </TableCell>
+                      <TableCell>
+                        <Box display={"flex"}>
+                          {data.length > 1 && (
+                            <Button style={{ color: "black" }}>
+                              <DeleteIcon
+                                id="deleteBtn"
+                                onClick={() => deleteRowHandler(ele.id)}
+                              />
+                            </Button>
+                          )}
+
+                          {data.length - 1 === index && (
+                            <Button onClick={formSubmitHandler}>
+                              <AddIcon />
+                            </Button>
+                          )}
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </Box>
+          <Button
+            onClick={pushDataHandler}
+            style={{ margin: "2vmax 0" }}
+            variant="contained"
+            disabled={data.length > 0 ? false : true}
+          >
+            Push Data
+          </Button>
+        </Box>
+
+        <ShowDataTable data={dataForTable} />
       </Box>
-
-
-      <ShowDataTable data={dataForTable} />
-     </Box>
     </>
   );
 };
