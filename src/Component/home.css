@@ -1,19 +1,43 @@
-#deleteBtn{
-    cursor: pointer;
-    transition: .3s ease;
-    
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400&family=Roboto:wght@100&display=swap");
+
+#deleteBtn {
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-#deleteBtn:hover{
-    color: red;
-    scale: 1.5;
-    
+#deleteBtn:hover {
+  color: red;
+  scale: 1.5;
 }
 
+#theOneContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-#theOneContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#nodeId {
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 2px;
+}
+
+@media screen and (max-width: 1200px) {
+  #container_div {
+    width: 70vw;
+  }
+
+  #formContainer_div {
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  #container_div {
+    width: 85vw;
+  }
+
+  #formContainer_div {
+    width: 85vw;
+  }
 }
