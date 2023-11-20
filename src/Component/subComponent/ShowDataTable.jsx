@@ -11,6 +11,7 @@ import {
 
 const ShowDataTable = (props) => {
   const { data } = props;
+
   return (
     <Box>
       {data.length > 0 ? (

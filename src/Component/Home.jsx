@@ -19,6 +19,8 @@ const Home = () => {
     price: "",
   });
 
+  const [firstRowEmpty, setFirstRowEmpty] = useState(false);
+
   //todo <----------------------  INPUT TEXTFIELD DATA HANDLER --------------------------------->
 
   // This inputFormValueChangeHandler is receiving data from inputs and set into the data STATE
@@ -71,6 +73,51 @@ const Home = () => {
   const deleteRowHandler = (id) => {
     const updatedData = data.filter((ele) => ele.id !== id);
     setData(updatedData);
+    setDataForTable(updatedData);
+
+  };
+
+
+
+  //todo <----------------------  PUSHING FORM DATA TO TABLE  --------------------------------->
+
+
+   
+  const pushDataHandler = (e) => {
+    // console.log("Data Is pushing");
+    e.preventDefault();
+    setDataForTable(data);
+  };
+
+
+
+
+  //todo <----------------------  DELETING / EMPTY FIRST ROW  --------------------------------->
+
+  if (firstRowEmpty === true) {
+    setData((old) =>
+    old.map((ele) => {
+      return {
+        ...ele,
+        id:"",
+        name: "",
+        price: "",
+        file:""
+      };
+    })
+    );
+    setDataForTable([])
+
+
+
+    setFirstRowEmpty(false);
+    // pushJUSTDATAHandler()
+  }
+
+  const deleteRowFirstElementHandler = (id) => {
+    // console.log(id);
+    // Reset inputFormData
+    setFirstRowEmpty(true);
   };
 
   //todo <----------------------  ADDING ONE MORE ROW  --------------------------------->
@@ -87,13 +134,7 @@ const Home = () => {
     });
   };
 
-  //todo <----------------------  PUSHING DATA TO TABLE  --------------------------------->
 
-  const pushDataHandler = (e) => {
-    // console.log("Data Is pushing");
-    e.preventDefault();
-    setDataForTable(data);
-  };
 
   return (
     <>
@@ -126,7 +167,8 @@ const Home = () => {
                 >
                   <TextField
                     onChange={(e) => inputFormValueChangeHandler(e, ele)}
-                    id={ele.id}
+                    // id={ele.id}
+                    value={ele.name}
                     name="name"
                     label={"Enter Name"}
                     type="string"
@@ -135,15 +177,17 @@ const Home = () => {
                   />
                   <TextField
                     onChange={(e) => inputFormValueChangeHandler(e, ele)}
-                    id={ele.id}
+                    // id={ele.id}
                     name="price"
                     label={"Enter Price"}
+                    value={ele.price}
+
                     type="number"
                     required
                     fullWidth
                   />
                   <TextField
-                    id={`text-${ele.id}`}
+                    id={`text${ele.id}`}
                     type="file"
                     name="file"
                     required
@@ -157,7 +201,7 @@ const Home = () => {
 
                   {!ele.file && (
                     <label
-                      htmlFor={`text-${ele.id}`}
+                      htmlFor={`text${ele.id}`}
                       style={{
                         cursor: "pointer",
                         padding: "20px 0",
@@ -170,7 +214,7 @@ const Home = () => {
 
                   {ele.file && (
                     <label
-                      htmlFor={`text-${ele.id}`}
+                      htmlFor={`text${ele.id}`}
                       style={{
                         cursor: "pointer",
                         padding: "20px 0",
@@ -189,6 +233,19 @@ const Home = () => {
                         />
                       </Button>
                     )}
+
+                    {/*todo <-----------------------------> */}
+
+                    {data.length === 1 && (
+                      <Button style={{ color: "black" }}>
+                        <DeleteIcon
+                          id="deleteBtn"
+                          onClick={() => deleteRowFirstElementHandler(ele.id)}
+                        />
+                      </Button>
+                    )}
+
+                    {/* <-------------------------------> */}
 
                     {data.length - 1 === index && (
                       <Button onClick={addNewRowHandler}>
